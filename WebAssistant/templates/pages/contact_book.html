@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Add income :: {{ block.super }}
+{% endblock %}
+
+{% block welcome %}
+    <section class="section section--contacts">
+        <div class="container">
+            <div class="section_header">
+                <h3 class="section_suptitle">ContactBook</h3>
+                <h2 class="section_title">All your contacts are here</h2>
+                <div class="search_contact">
+                    <form class="find_something" method="get">
+                        <input class="inp_search" type="search" placeholder="Search" name="find_contact">
+                        <button class="submit_btn" type="submit">Search</button>
+                        <a class="show_all_btn" href="/">Show_all</a>
+                    </form>
+                </div>
+            </div>
+            {% if contact| length > 0 %}
+                <div class="flex-row-container">
+                    {% for contact in contacts %}
+                        <div class="flex-row-item">
+                            <div class="services_item">
+                                <div class="services_title">{{ contact.name }}</div>
+                                <div class="services_text">
+                                    <li>phone: {{ contact.phone }}</li>
+                                    <li>birthday: {{ contact.birthday }}</li>
+                                    <li>email: {{ contact.email }}</li>
+                                    <li>address: {{ contact.address }}</li>
+                                </div>
+                                <div class="change_cnt_btn">
+                                    <a class="change_btn" href="/edit/{{ contact.id }}">change</a>
+                                    <a class="delete_btn"
+                                       href="/">delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <h2 class="no_notes">NO CONTACTS YET</h2>
+            {% endif %}
+        </div>
+        <a class="add_new_btn" href="/">Add new contact</a>
+    </section>
+    </div>
+{% endblock %}
