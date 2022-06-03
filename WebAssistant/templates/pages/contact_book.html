@@ -18,20 +18,22 @@
                     </form>
                 </div>
             </div>
-            {% if contact| length > 0 %}
+            {% if contact|length > 0 %}
                 <div class="flex-row-container">
-                    {% for contact in contacts %}
+                    {% for cnt in contact %}
                         <div class="flex-row-item">
                             <div class="services_item">
-                                <div class="services_title">{{ contact.name }}</div>
+                                <div class="services_title">{{ cnt.name }}</div>
                                 <div class="services_text">
-                                    <li>phone: {{ contact.phone }}</li>
-                                    <li>birthday: {{ contact.birthday }}</li>
-                                    <li>email: {{ contact.email }}</li>
-                                    <li>address: {{ contact.address }}</li>
+                                    <li>phones: {% for phone in phones %} {% if phone.contact_id_id == cnt.id %}
+                                        {{ phone.phone }}{% endif %} {% endfor %}</li>
+                                    <li>birthday: {{ cnt.birthday }}</li>
+                                    <li>email: {{ cnt.email }}</li>
+                                    <li>address: {% for address in addresses %} {% if address.contact_id_id == cnt.id %}
+                                        {{ address.address }}{% else %}{% endif %} {% endfor %}</li>
                                 </div>
                                 <div class="change_cnt_btn">
-                                    <a class="change_btn" href="/edit/{{ contact.id }}">change</a>
+                                    <a class="change_btn" href="/">change</a>
                                     <a class="delete_btn"
                                        href="/">delete</a>
                                 </div>
@@ -43,7 +45,6 @@
                 <h2 class="no_notes">NO CONTACTS YET</h2>
             {% endif %}
         </div>
-        <a class="add_new_btn" href="/">Add new contact</a>
+        <a class="add_new_btn" href="{% url 'add_contact' %}">Add new contact</a>
     </section>
-    </div>
 {% endblock %}

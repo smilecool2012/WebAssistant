@@ -24,7 +24,7 @@ from django.db import models
 class Contact(models.Model):
     name = models.CharField(max_length=40, null=False)
     birthday = models.DateField(null=False)
-    email = models.EmailField(max_length=50, unique=True)
+    email = models.EmailField(max_length=50, unique=True, null=False)
     created_at = models.DateField(null=False, auto_now_add=True)
     # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     
