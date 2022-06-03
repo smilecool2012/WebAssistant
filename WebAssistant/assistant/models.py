@@ -8,6 +8,8 @@ from django.db import models
 #     email = models.EmailField(100, unique=True, nullable=False)
 #     created_at = models.DateField(null=False, auto_now_add=True)
 #     hash = models.CharField(255, nullable=False)
+#     storage_size = models.IntegerField(default=0)
+#     storage_limit = models.IntegerField(default=1e+7)
 #     token_cookie = models.CharField(254, nullable=True, default=None)
 #
 #     def __str__(self):
@@ -24,9 +26,6 @@ class Contact(models.Model):
     birthday = models.DateField(null=False)
     email = models.EmailField(max_length=50, unique=True)
     created_at = models.DateField(null=False, auto_now_add=True)
-    phones = models.ForeignKey(ContactPhone, on_delete=models.CASCADE)
-    address = models.ForeignKey(ContactPhone, on_delete=models.CASCADE)
-    phones = models.ForeignKey(ContactPhone, on_delete=models.CASCADE)
     # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
