@@ -26,11 +26,11 @@
                             <div class="services_item">
                                 <div class="services_title">{{ cnt.name }}</div>
                                 <div class="services_text">
-                                    <li>phones: {% for phone in phones %} {% if phone.contact_id_id == cnt.id %}
+                                    <li>phones: {% for phone in phones %} {% if phone.contact_id == cnt.id %}
                                         {{ phone.phone }}{% endif %} {% endfor %}</li>
                                     <li>birthday: {{ cnt.birthday }}</li>
                                     <li>email: {{ cnt.email }}</li>
-                                    <li>address: {% for address in addresses %} {% if address.contact_id_id == cnt.id %}
+                                    <li>address: {% for address in addresses %} {% if address.contact_id == cnt.id %}
                                         {{ address.address }}{% else %}{% endif %} {% endfor %}</li>
                                 </div>
                                 <div class="change_cnt_btn">

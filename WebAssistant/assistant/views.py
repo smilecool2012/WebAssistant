@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import Contact, ContactNote, ContactPhone, ContactAddress
-from .forms import AddContact
+from .models import Contact, ContactNote, ContactPhone, ContactAddress, NoteTag
+from .forms import AddContact, AddTag
 from django.shortcuts import redirect
 
 
@@ -36,11 +36,11 @@ def add_contact(request):
         contact.save()
         list_of_phones = phones.split(',')
         for phone in list_of_phones:
-            add_phone = ContactPhone(contact_id_id=contact.id, phone=phone.strip())
+            add_phone = ContactPhone(contact_id=contact, phone=phone.strip())
             add_phone.save()
         list_of_addresses = address.split(',')
         for address in list_of_addresses:
-            add_address = ContactAddress(contact_id_id=contact.id, address=address.strip())
+            add_address = ContactAddress(contact_id=contact, address=address.strip())
             add_address.save()
         return redirect('contact_book')
     else:
@@ -55,3 +55,34 @@ def delete_contact(request, contact_id):
 
 def update_contact(request, contact_id):
     ...
+
+
+def see_contact_notes(request, contact_id):
+    # вид лінки тут такий : contact_book/<contact_id>/see_notes
+    # тут треба буде парсити теги для кожної нотатки у темплейті ,
+    # бо воно передає всі теги які є у базі
+    contact_notes = ContactNote.objects.filter(contact_id=contact_id)
+    note_tags = NoteTag.object.all()
+    context = {
+        'notes': contact_notes,
+        'tags': note_tags,
+    }
+    return render(request, template_name='pages/see_notes.html', context=context)
+
+
+def delete_note(request, contact_id, note_id):
+    # вид лінки тут такий : contact_book/<contact_id>/see_notes/delete_note/<note_id>
+    ContactNote.objects.filter(id=note_id).delete()
+    return redirect('see_contact_notes')
+
+
+def add_tag(request, contact_id, note_id):
+    # вид лінки тут такий : contact_book/<contact_id>/see_notes/add_tag/<note_id>
+    if request.method == "POST":
+        new_tag_value = request.POST['tag']
+        new_tag = NoteTag(tag=new_tag_value, note_id=note_id)
+        new_tag.save()
+        return redirect('see_contact_notes')
+    form = AddTag
+    return render(request, 'pages/add_tag.html', {'form': form})
+
