@@ -50,25 +50,26 @@ def contacts(request):
 
 
 def add_contact(request):
+    form = AddContact()
     if request.method == 'POST':
-        name = request.POST['name']
-        birthday = request.POST['birthday']
-        email = request.POST['email']
-        address = request.POST['address']
-        phones = request.POST['phone']
-        contact = Contact(name=name, birthday=birthday, email=email)
-        contact.save()
-        list_of_phones = phones.split(',')
-        for phone in list_of_phones:
-            add_phone = ContactPhone(contact_id=contact, phone=phone.strip())
-            add_phone.save()
-        list_of_addresses = address.split(',')
-        for address in list_of_addresses:
-            add_address = ContactAddress(contact_id=contact, address=address.strip())
-            add_address.save()
-        return redirect('contact_book')
-    else:
-        form = AddContact
+        form = AddContact(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            birthday = form.cleaned_data['birthday']
+            email = form.cleaned_data['email']
+            address = form.cleaned_data['address']
+            phones = form.cleaned_data['phone']
+            contact = Contact(name=name, birthday=birthday, email=email)
+            contact.save()
+            list_of_phones = phones.split(',')
+            for phone in list_of_phones:
+                add_phone = ContactPhone(contact_id=contact, phone=phone.strip())
+                add_phone.save()
+            list_of_addresses = address.split(',')
+            for address in list_of_addresses:
+                add_address = ContactAddress(contact_id=contact, address=address.strip())
+                add_address.save()
+            return redirect('contact_book')
     return render(request, 'pages/add_contact.html', {'form': form})
 
 
@@ -98,15 +99,17 @@ def delete_note(request, contact_id, note_id):
 
 
 def add_tag(request, contact_id, note_id):
-    context = {'form': AddTag,
+    context = {'form': AddTag(),
                'id_contact': contact_id,
                'id_note': note_id,
                }
     if request.method == "POST":
-        new_tag_value = request.POST['tag']
-        new_tag = NoteTag(tag=new_tag_value, note_id_id=note_id)
-        new_tag.save()
-        return redirect('see_contact_notes', contact_id=contact_id)
+        context['form'] = AddTag(request.POST)
+        if context['form'].is_valid():
+            new_tag_value = context['form'].cleaned_data['tag']
+            new_tag = NoteTag(tag=new_tag_value, note_id=note_id)
+            new_tag.save()
+            return redirect('see_contact_notes', contact_id=contact_id)
     return render(request, 'pages/add_tag.html', context)
 
 

@@ -16,7 +16,7 @@
                             {% csrf_token %}
                             <input class="inp_search" type="search" placeholder="Search" name="find_contact">
                             <button class="submit_btn" type="submit">Search</button>
-                            <a class="show_all_btn" href={% url 'contact_book' %}>Show all</a>
+                            <a class="show_all_btn" href="{% url 'contact_book' %}">Show all</a>
                         </form>
                     </div>
                     <div class="search_contact">
@@ -24,7 +24,7 @@
                             {% csrf_token %}
                             <input class="inp_search" type="search" placeholder="Search" name="find_birthday">
                             <button class="submit_btn" type="submit">Search birthday</button>
-                            <a class="show_all_btn" href={% url 'contact_book' %}>Show all</a>
+                            <a class="show_all_btn" href="{% url 'contact_book' %}">Show all</a>
                         </form>
                     </div>
                     </div>
