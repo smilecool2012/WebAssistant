@@ -1,5 +1,5 @@
 from django import forms
-from .models import Contact, NoteTag
+from .models import Contact
 
 
 class AddContact(forms.Form):
@@ -49,6 +49,27 @@ class AddTag(forms.Form):
 
         tags = [tg.strip() for tg in self.cleaned_data['tag'].split(',')]
 
+        for this_tag in tags:
+            if len(this_tag) > 20:
+                self._errors['tag'] = self.error_class(['Tag length is maximum 20 characters'])
+                break
+
+        return self.cleaned_data
+
+
+class AddNote(forms.Form):
+    note = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'note_name'}))
+    tag = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'tags'}))
+
+    def clean(self):
+
+        super(AddNote, self).clean()
+
+        note_to_add = self.cleaned_data['note']
+        tags = [tg.strip() for tg in self.cleaned_data['tag'].split(',')]
+
+        if len(note_to_add) > 50 :
+            self._errors['note'] = self.error_class(['Note length is maximum 50 characters'])
         for this_tag in tags:
             if len(this_tag) > 20:
                 self._errors['tag'] = self.error_class(['Tag length is maximum 20 characters'])

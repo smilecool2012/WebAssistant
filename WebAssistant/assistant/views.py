@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 
 from django.shortcuts import render
 from .models import Contact, ContactNote, ContactPhone, ContactAddress, NoteTag
@@ -17,36 +17,32 @@ def contacts(request):
     context = {'phones': phones,
                'addresses': addresses, }
     if request.method == 'POST':
+        valid_contacts = []
         if 'find_contact' in request.POST:
             name = request.POST['find_contact']
-            contact = Contact.objects.filter(name__contains=name)
-            context.update({'contact': contact})
-            return render(request, template_name='pages/contact_book.html', context=context)
+            valid_contacts = Contact.objects.filter(name__contains=name)
         elif 'find_birthday' in request.POST:
-            list_of_contacts = []
-            valid_contacts = []
-            delta_days = 0
-            contact = Contact.objects.all()
             date_interval = request.POST['find_birthday']
-            for item in contact:
-                list_of_contacts.append(item)
-            while delta_days != date_interval:
-                for item in list_of_contacts:
-                    valid_days = datetime.datetime.now() + datetime.timedelta(days=delta_days)
-                    for value in item.values():
-                        if not isinstance(value, str):
-                            if value.month == valid_days.month and value.day == valid_days.day:
-                                valid_contacts.append(item)
-                delta_days += 1
-            for item in valid_contacts:
-                date = item.get("birthday")
-                valid_year = date.replace(year=datetime.datetime.now().year)
-                item.update({"birthday": valid_year.strftime("%d %B")})
-            return redirect('contact_book')
+            for this_cnt in Contact.objects.all():
+                current_date = datetime.now().date()
+                this_year_birthday = datetime(
+                    year=current_date.year,
+                    month=this_cnt.birthday.month,
+                    day=this_cnt.birthday.day,
+                ).date()
+                if current_date > this_year_birthday:
+                    this_year_birthday = datetime(
+                        year=current_date.year + 1,
+                        month=this_cnt.birthday.month,
+                        day=this_cnt.birthday.day,
+                    ).date()
+                if str((this_year_birthday - current_date).days) == date_interval:
+                    valid_contacts.append(this_cnt)
+        context.update({'contact': valid_contacts})
     else:
         contact = Contact.objects.all()
         context.update({'contact': contact})
-        return render(request, template_name='pages/contact_book.html', context=context)
+    return render(request, template_name='pages/contact_book.html', context=context)
 
 
 def add_contact(request):
@@ -107,26 +103,28 @@ def add_tag(request, contact_id, note_id):
         context['form'] = AddTag(request.POST)
         if context['form'].is_valid():
             new_tag_value = context['form'].cleaned_data['tag']
-            new_tag = NoteTag(tag=new_tag_value, note_id=note_id)
+            new_tag = NoteTag(tag=new_tag_value, note_id=ContactNote.objects.filter(id=note_id)[0])
             new_tag.save()
             return redirect('see_contact_notes', contact_id=contact_id)
     return render(request, 'pages/add_tag.html', context)
 
 
 def add_note(request, contact_id):
-    context = {'form': AddNote,
+    context = {'form': AddNote(),
                'id_contact': contact_id
                }
     if request.method == 'POST':
-        note = request.POST['note']
-        tags = request.POST['tag']
-        note_to_db = ContactNote(note=note, contact_id_id=contact_id)
-        note_to_db.save()
-        list_of_tags = tags.split(',')
-        for tag in list_of_tags:
-            tag_to_db = NoteTag(tag=tag.strip(), note_id_id=note_to_db.id)
-            tag_to_db.save()
-        return redirect('see_contact_notes', contact_id=contact_id)
+        context['form'] = AddNote(request.POST)
+        if context['form'].is_valid():
+            note = context['form'].cleaned_data['note']
+            tags = context['form'].cleaned_data['tag']
+            note_to_db = ContactNote(note=note, contact_id=Contact.objects.filter(id=contact_id)[0])
+            note_to_db.save()
+            list_of_tags = tags.split(',')
+            for tag in list_of_tags:
+                tag_to_db = NoteTag(tag=tag.strip(), note_id=note_to_db)
+                tag_to_db.save()
+            return redirect('see_contact_notes', contact_id=contact_id)
     return render(request, 'pages/add_note.html', context)
 
 
