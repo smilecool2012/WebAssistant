@@ -22,9 +22,8 @@ hr {
   display: block;
   width: 100%;
   height: 1px;
-  margin: 40px 0;
   border: 0;
-  background-color: #e5e5e5;
+  background-color: black;
 }
 /*1 Block*/
 .container {
@@ -38,7 +37,7 @@ hr {
   justify-content: center;
   width: 100%;
   height: 100vh;
-  background-image: url("../intro.jpg");
+  background-image: url("../grey.jpeg");
   background-size: cover;
 }
 .intro_inner {
@@ -73,6 +72,7 @@ hr {
   width: 100%;
   padding-top: 30px;
   position: absolute;
+  background-color: black;
   top: 0;
   left: 0;
   right: 0;
@@ -146,11 +146,10 @@ hr {
 
 /*2 BLOCK*/
 .section {
-  padding: 80px 0;
+  padding: 300px 0;
 }
 .section--contacts {
-  background: url(../devices-bg.jpg) center no-repeat;
-  background-size: cover;
+  background-color: grey;
 }
 .section_header {
   width: 100%;
@@ -159,6 +158,7 @@ hr {
   text-align: center;
 }
 .section_suptitle {
+  margin-top: 30px;
   font-family: "Kaushan Script", cursive;
   font-size: 24px;
   color: black;
@@ -301,7 +301,7 @@ hr {
   width: 25% ;
   margin-top: 40px;
   margin-bottom: 80px;
-  left: 40%;
+  left: 38%;
   border: 1px solid black;
   transition-duration: 0.4s;
   background-color: white;
@@ -377,7 +377,7 @@ hr {
 }
 .flex-row-container > .flex-row-item {
   margin-top: 40px;
-  width: 371px;
+  width: 250px;
   height: 100px;
 }
 .flex-row-container > .flex-row-item_note{
@@ -648,7 +648,7 @@ input[type="date"] {
 }
 
 .no_notes{
-  margin-left: 120px;
+  justify-content: center;
   font-size: 30px;
   font-family: "Kaushan Script", cursive;
   width: 950px;
@@ -760,5 +760,9 @@ input[type="date"] {
 .show_notes:hover{
   background-color: #7be0bb; /* Green */
   color: black;
+}
 
+.services_title{
+  position: relative;
+  margin-left: 100px;
 }
