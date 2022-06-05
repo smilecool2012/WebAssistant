@@ -1,62 +1,48 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Add income :: {{ block.super }}
+Add income :: {{ block.super }}
 {% endblock %}
 
 {% block welcome %}
-    <section class="section section--contacts">
-        <div class="container">
-            <div class="section_header">
-                <h3 class="section_suptitle">ContactBook</h3>
-                <h2 class="section_title">All your contacts are here</h2>
-                {% if contact|length > 0 %}
-                    <div class="search_contact">
-                        <form class="find_something" method="post">
-                            {% csrf_token %}
-                            <input class="inp_search" type="search" placeholder="Search" name="find_contact">
-                            <button class="submit_btn" type="submit">Search</button>
-                            <a class="show_all_btn" href="{% url 'contact_book' %}">Show all</a>
-                        </form>
-                    </div>
-                    <div class="search_contact">
-                        <form class="find_something" method="post">
-                            {% csrf_token %}
-                            <input class="inp_search" type="search" placeholder="Search" name="find_birthday">
-                            <button class="submit_btn" type="submit">Search birthday</button>
-                            <a class="show_all_btn" href="{% url 'contact_book' %}">Show all</a>
-                        </form>
-                    </div>
-                    </div>
-                    <div class="flex-row-container">
-                        {% for cnt in contact %}
-                            <div class="flex-row-item">
-                                <div class="services_item">
-                                    <div class="services_title">{{ cnt.name }}</div>
-                                    <div class="services_text">
-                                        <li>phones: {% for phone in phones %} {% if phone.contact_id_id == cnt.id %}
-                                            {{ phone.phone }}{% endif %} {% endfor %}</li>
-                                        <li>birthday: {{ cnt.birthday }}</li>
-                                        <li>email: {{ cnt.email }}</li>
-                                        <li>address: {% for address in addresses %}
-                                            {% if address.contact_id_id == cnt.id %}
-                                                {{ address.address }}{% else %}{% endif %} {% endfor %}</li>
-                                    </div>
-                                    <div class="change_cnt_btn">
-                                        <a class="change_btn" href="{% url 'update_contact' cnt.id %}">change</a>
-                                        <a class="show_notes"
-                                           href="{% url 'see_contact_notes' cnt.id %}">show notes</a>
-                                        <a class="delete_btn"
-                                           href="{% url 'delete_contact' cnt.id %}">delete</a>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <h2 class="no_notes">NO CONTACTS YET</h2>
-                {% endif %}
-            <a class="add_new_btn" href="{% url 'add_contact' %}">Add new contact</a>
+<div class="container">
+    <div class="section_header">
+        <h3 class="section_suptitle">ContactBook</h3>
+        <h2 class="section_title">All your contacts are here</h2>
+        {% if contact|length > 0 %}
+        <div class="search_contact">
+            <form class="find_something" method="post">
+                {% csrf_token %}
+                <input class="inp_search" type="search" placeholder="Search" name="find_contact">
+                <button class="submit_btn" type="submit">Search</button>
+                <a class="show_all_btn" href={% url 'contact_book' %}>Show all</a>
+            </form>
         </div>
-    </section>
+        <div class="search_contact">
+            <form class="find_something" method="post">
+                {% csrf_token %}
+                <input class="inp_search" type="search" placeholder="Search" name="find_birthday">
+                <button class="search_birthday" type="submit">Search birthday</button>
+                <a class="show_all_btn" href={% url 'contact_book' %}>Show all</a>
+            </form>
+        </div>
+    </div>
+    <div class="flex-row-container">
+        {% for cnt in contact %}
+        <div class="flex-row-item">
+            <div class="services_item">
+                <h5 style="width: 25%">{{ cnt.name }}</h5>
+                <h5 style="width: 25%">phones: {% for phone in phones %} {% if phone.contact_id_id == cnt.id %}
+                    {{ phone.phone }}{% endif %} {% endfor %}</h5>
+                <h5 style="width: 25%">birthday: {{ cnt.birthday }}</h5>
+                <a class="services_text" href="{% url 'detail_contact' cnt.id %}">Full info</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h2 class="no_notes">NO CONTACTS YET</h2>
+    {% endif %}
+    <a class="add_new_btn" href="{% url 'add_contact' %}">Add new contact</a>
+</div>
 {% endblock %}

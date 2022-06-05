@@ -9,6 +9,7 @@ body {
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
   color: #333;
+  background-color: #999999;
 }
 h1,
 h2,
@@ -127,22 +128,6 @@ hr {
 .nav_link.active:after {
   opacity: 1;
 }
-.btn {
-  display: inline-block;
-  vertical-align: top;
-  padding: 8px 30px;
-  border: 3px solid white;
-  text-decoration: none;
-  color: white;
-  text-transform: uppercase;
-  font-size: 14px;
-  font-weight: bold;
-  transition: background 0.1s linear, color 0.1s linear;
-}
-.btn:hover {
-  background-color: white;
-  color: black;
-}
 
 /*2 BLOCK*/
 .section {
@@ -154,7 +139,7 @@ hr {
 .section_header {
   width: 100%;
   max-width: 950px;
-  margin: 0 auto 50px;
+  margin: 10% auto 50px;
   text-align: center;
 }
 .section_suptitle {
@@ -175,82 +160,7 @@ hr {
   width: 60px;
   height: 3px;
   margin: 30px auto;
-  background-color: #f38181;
-}
-.section_text {
-  font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  color: #999;
-}
-/*ABOUT*/
-.about {
-  margin-top: 80px;
-  display: flex;
-  justify-content: space-around;
-}
-.about_item {
-  position: relative;
-  width: 380px;
-  background-color: #95e1d3;
-}
-.about_item:hover .about_text {
-  opacity: 1;
-}
-.about_item:hover .about_img {
-  transform: translate3d(-10px, -10px, 0);
-}
-.about_item:hover .about_img img {
-  opacity: 0.1;
-}
-.about_img {
-  background: linear-gradient(to bottom, #f38181, #fce38a);
-  transition: transform 0.2s linear;
-}
-.about_img img {
-  display: block;
-  transition: opacity 0.1s linear;
-}
-.about_text {
-  width: 100%;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  text-transform: uppercase;
-  text-align: center;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  z-index: 2;
-  transform: translate3d(0, -50%, 0);
-  transition: opacity 0.2s linear;
-}
-/*STATISTICS*/
-.statistics {
-  background-color: #95e1d3;
-}
-.stat {
-  display: flex;
-}
-.stat_item {
-  flex: 1 1 0;
-  padding: 70px 25px;
-  border-left: 1px solid #b5eae0;
-  text-align: center;
-  color: white;
-}
-.stat_item:last-child {
-  border-right: 1px solid #b5eae0;
-}
-.stat_count {
-  margin-bottom: 10px;
-  font-size: 72px;
-  font-weight: bold;
-  line-height: 1;
-}
-.stat_text {
-  font-size: 14px;
-  text-transform: uppercase;
+  background-color: black;
 }
 
 .change_btn{
@@ -341,7 +251,7 @@ hr {
 .submit_btn{
   margin-top: 5px;
   margin-left: 2%;
-  width: 20% ;
+  width: 25% ;
   height: 80% ;
   border: 1px solid black;
   transition-duration: 0.4s;
@@ -359,26 +269,15 @@ hr {
   color: black;
 }
 
-.section--notebook {
-  background: url(../augustine-wong-IkkMQi-MZws-unsplash.jpg) center no-repeat;
-  background-size: cover;
-}
-
-.section_text_about{
-  font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  color: #999;
-}
-
 .flex-row-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  gap: 10px;
 }
 .flex-row-container > .flex-row-item {
-  margin-top: 40px;
-  width: 250px;
-  height: 100px;
+  margin-left: 40px;
+  border: 3px solid black;
+  border-radius: 10px 100px / 120px;
 }
 .flex-row-container > .flex-row-item_note{
   margin-top: 10px;
@@ -430,10 +329,6 @@ hr {
   color: black;
 }
 
-.change_cnt_btn{
-  background-color: black;
-}
-
 .intro_title_note{
   color: white;
   font-size: 50px;
@@ -441,17 +336,6 @@ hr {
   text-transform: uppercase;
   line-height: 1;
   font-family: "Kaushan Script", cursive;
-}
-
-.note_input{
-  margin-top: 5px;
-  width: 70%;
-  height: 80%;
-  background-color: transparent;
-  border: 1px solid black;
-  border-radius: 8px;
-  font-family: "Roboto", sans-serif;
-  font-size: 20px;
 }
 
 .add_note_form{
@@ -700,6 +584,7 @@ input[type="date"] {
 }
 
 .add_income{
+  margin-top: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -762,7 +647,78 @@ input[type="date"] {
   color: black;
 }
 
-.services_title{
-  position: relative;
+.services_item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.search_birthday{
+  margin-top: 5px;
+  margin-left: 2%;
+  width: 25% ;
+  height: 80% ;
+  border: 1px solid black;
+  transition-duration: 0.4s;
+  background-color: #7be0bb;
+  font-family: "Roboto", sans-serif;
+  border-radius: 8px;
+  color: black;
+  text-align: center;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.search_birthday:hover{
+  background-color: white; /* Green */
+  color: black;
+}
+
+.detail_info{
+  display: flex;
+  flex-direction: column;
+}
+
+.cnt_info{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.change_cnt_btn{
+  font-size: 12px;
+  border: 2px solid black;
+  border-radius: 8px;
+  font-family: "Roboto", sans-serif;
+  background-color: #7be0bb;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  text-align: center;
+  color: black;
+  width: 10%;
+}
+
+.change_cnt_btn:hover{
+  background-color: white; /* Green */
+  color: black;
+}
+
+.add_phone_btn{
   margin-left: 100px;
+  font-size: 12px;
+  border: 2px solid black;
+  border-radius: 8px;
+  font-family: "Roboto", sans-serif;
+  background-color: #7be0bb;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  text-align: center;
+  color: black;
+  width: 10%;
+}
+
+.add_phone_btn:hover{
+  background-color: white; /* Green */
+  color: black;
 }

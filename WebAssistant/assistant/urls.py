@@ -12,4 +12,5 @@ urlpatterns = [
     path('contact_book/<contact_id>/see_notes', views.see_contact_notes, name='see_contact_notes'),
     path('contact_book/<contact_id>/see_notes/delete_note/<note_id>', views.delete_note, name='delete_note'),
     path('contact_book/<contact_id>/see_notes/add_tag/<note_id>', views.add_tag, name='add_tag'),
+    path('contact_book/detail/<contact_id>', views.detail_contact, name='detail_contact'),
 ]

@@ -21,6 +21,8 @@ def contacts(request):
         if 'find_contact' in request.POST:
             name = request.POST['find_contact']
             valid_contacts = Contact.objects.filter(name__contains=name)
+            context.update({'contact': valid_contacts})
+            return render(request, template_name='pages/contact_book.html', context=context)
         elif 'find_birthday' in request.POST:
             date_interval = request.POST['find_birthday']
             for this_cnt in Contact.objects.all():
@@ -39,6 +41,7 @@ def contacts(request):
                 if str((this_year_birthday - current_date).days) == date_interval:
                     valid_contacts.append(this_cnt)
         context.update({'contact': valid_contacts})
+        return render(request, template_name='pages/contact_book.html', context=context)
     else:
         contact = Contact.objects.all()
         context.update({'contact': contact})
@@ -130,3 +133,20 @@ def add_note(request, contact_id):
 
 def update_note(request, contact_id, note_id):
     ...
+
+
+def detail_contact(request, contact_id):
+    contact_notes = ContactNote.objects.filter(contact_id=contact_id)
+    note_tags = NoteTag.objects.all()
+    phones = ContactPhone.objects.filter(contact_id_id=contact_id)
+    addresses = ContactAddress.objects.filter(contact_id_id=contact_id)
+    contact = Contact.objects.get(pk=contact_id)
+    context = {'form': AddNote,
+               'id_contact': contact_id,
+               'phones': phones,
+               'addresses': addresses,
+               'contact': contact,
+               'notes': contact_notes,
+               'tags': note_tags,
+               }
+    return render(request, 'pages/detail_contact.html', context)
