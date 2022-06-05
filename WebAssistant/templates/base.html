@@ -1,0 +1,19 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Montserrat:wght@400;700&family=Roboto&display=swap"
+            rel="stylesheet"
+    />
+    <title>{% block title %}Financial Assistant{% endblock %}</title>
+</head>
+<body>
+
+{% include 'inc/_nav.html' %}
+{% block welcome %}{% endblock %}
+</body>
+</html>
