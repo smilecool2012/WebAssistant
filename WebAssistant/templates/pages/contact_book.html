@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Add income :: {{ block.super }}
+Contact book::{{ block.super }}
 {% endblock %}
 
 {% block welcome %}
@@ -13,17 +13,15 @@ Add income :: {{ block.super }}
         <div class="search_contact">
             <form class="find_something" method="post">
                 {% csrf_token %}
-                <input class="inp_search" type="search" placeholder="Search" name="find_contact">
+                <input class="inp_search" type="search" placeholder="Search by name" name="find_contact">
                 <button class="submit_btn" type="submit">Search</button>
-                <a class="show_all_btn" href={% url 'contact_book' %}>Show all</a>
             </form>
         </div>
         <div class="search_contact">
             <form class="find_something" method="post">
                 {% csrf_token %}
-                <input class="inp_search" type="search" placeholder="Search" name="find_birthday">
+                <input class="inp_search" type="search" placeholder="Search birthdays" name="find_birthday">
                 <button class="search_birthday" type="submit">Search birthday</button>
-                <a class="show_all_btn" href={% url 'contact_book' %}>Show all</a>
             </form>
         </div>
     </div>
@@ -31,18 +29,22 @@ Add income :: {{ block.super }}
         {% for cnt in contact %}
         <div class="flex-row-item">
             <div class="services_item">
-                <h5 style="width: 25%">{{ cnt.name }}</h5>
-                <h5 style="width: 25%">phones: {% for phone in phones %} {% if phone.contact_id_id == cnt.id %}
-                    {{ phone.phone }}{% endif %} {% endfor %}</h5>
-                <h5 style="width: 25%">birthday: {{ cnt.birthday }}</h5>
-                <a class="services_text" href="{% url 'detail_contact' cnt.id %}">Full info</a>
+                <h5 style="width: 1%">{{ forloop.counter }}.</h5>
+                <h5 style="width: 10%"><a class="link_contact" href="{% url 'detail_contact' cnt.id %}">{{ cnt.name }}</a></h5>
+                <h5 style="width: 55%">phones:<br> {% for phone in phones %} {% if phone.contact_id_id == cnt.id %}
+                    {{ phone.phone }};{% endif %} {% endfor %}</h5>
+                <h5 style="width: 20%">birthday:<br> {{ cnt.birthday }}</h5>
+                <a class="show_info" href="{% url 'detail_contact' cnt.id %}">More info</a>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <h2 class="no_notes">NO CONTACTS YET</h2>
+    <h2 class="no_notes">NO CONTACT</h2>
     {% endif %}
+    <div class="btns_contact_book">
     <a class="add_new_btn" href="{% url 'add_contact' %}">Add new contact</a>
-</div>
+    <a class="add_new_btn" href={% url 'contact_book' %}>Show all</a>
+    </div>
+    </div>
 {% endblock %}

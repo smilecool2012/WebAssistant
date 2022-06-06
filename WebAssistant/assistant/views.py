@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.shortcuts import render
 from .models import Contact, ContactNote, ContactPhone, ContactAddress, NoteTag
-from .forms import AddContact, AddTag, AddNote
+from .forms import AddContact, AddTag, AddNote, ChangeName, ChangeBirthday, AddPhone
 from django.shortcuts import redirect
 
 
@@ -21,8 +21,6 @@ def contacts(request):
         if 'find_contact' in request.POST:
             name = request.POST['find_contact']
             valid_contacts = Contact.objects.filter(name__contains=name)
-            context.update({'contact': valid_contacts})
-            return render(request, template_name='pages/contact_book.html', context=context)
         elif 'find_birthday' in request.POST:
             date_interval = request.POST['find_birthday']
             for this_cnt in Contact.objects.all():
@@ -38,10 +36,13 @@ def contacts(request):
                         month=this_cnt.birthday.month,
                         day=this_cnt.birthday.day,
                     ).date()
-                if str((this_year_birthday - current_date).days) == date_interval:
-                    valid_contacts.append(this_cnt)
+                try:
+                    date_interval = int(date_interval)
+                    if (this_year_birthday - current_date).days <= date_interval:
+                        valid_contacts.append(this_cnt)
+                except ValueError:
+                    continue
         context.update({'contact': valid_contacts})
-        return render(request, template_name='pages/contact_book.html', context=context)
     else:
         contact = Contact.objects.all()
         context.update({'contact': contact})
@@ -150,3 +151,41 @@ def detail_contact(request, contact_id):
                'tags': note_tags,
                }
     return render(request, 'pages/detail_contact.html', context)
+
+
+def add_phone(request, contact_id):
+    context = {'form': AddPhone,
+               'id_contact': contact_id
+               }
+    if request.method == 'POST':
+        phone = request.POST['phone']
+        add_phone = ContactPhone(contact_id_id=contact_id, phone=phone.strip())
+        add_phone.save()
+        return redirect('detail_contact', contact_id=contact_id)
+    return render(request, 'pages/add_phone.html', context)
+
+
+def change_name(request, contact_id):
+    context = {'form': ChangeName,
+               'id_contact': contact_id
+               }
+    contact = Contact.objects.get(pk=contact_id)
+    if request.method == 'POST':
+        new_name = request.POST['new_name']
+        contact.name = new_name
+        contact.save()
+        return redirect('detail_contact', contact_id=contact_id)
+    return render(request, 'pages/change_name.html', context)
+
+
+def change_birthday(request, contact_id):
+    context = {'form': ChangeBirthday,
+               'id_contact': contact_id
+               }
+    contact = Contact.objects.get(pk=contact_id)
+    if request.method == 'POST':
+        new_birthday = request.POST['new_birthday']
+        contact.birthday = new_birthday
+        contact.save()
+        return redirect('detail_contact', contact_id=contact_id)
+    return render(request, 'pages/change_birthday.html', context)

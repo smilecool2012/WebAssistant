@@ -13,4 +13,7 @@ urlpatterns = [
     path('contact_book/<contact_id>/see_notes/delete_note/<note_id>', views.delete_note, name='delete_note'),
     path('contact_book/<contact_id>/see_notes/add_tag/<note_id>', views.add_tag, name='add_tag'),
     path('contact_book/detail/<contact_id>', views.detail_contact, name='detail_contact'),
+    path('contact_book/change_name/<contact_id>', views.change_name, name='change_name'),
+    path('contact_book/change_birthday/<contact_id>', views.change_birthday, name='change_birthday'),
+    path('contact_book/add_phone/<contact_id>', views.add_phone, name='add_phone'),
 ]
