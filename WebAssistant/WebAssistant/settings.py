@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'assistant.apps.AssistantConfig'
+    'assistant.apps.AssistantConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'assistant',
         'USER': 'postgres',
-        'PASSWORD': '1234',
+        'PASSWORD': '2012',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -136,3 +137,5 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
