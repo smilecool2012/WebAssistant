@@ -1,10 +1,11 @@
 from django import forms
-from .models import Contact, ContactPhone
+from .models import Contact
+from django.core.validators import validate_email, ValidationError
 
 
 class AddContact(forms.Form):
     name = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'class': 'contact_name_form'}))
-    email = forms.EmailField(max_length=50, widget=forms.TextInput(attrs={'class': 'email_form'}))
+    email = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'email_form'}))
     address = forms.CharField(max_length=250, widget=forms.TextInput(attrs={'class': 'address_form'}))
     phone = forms.CharField(max_length=250, widget=forms.TextInput(attrs={'class': 'phone_form'}))
     birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'date_form'}))
@@ -26,6 +27,10 @@ class AddContact(forms.Form):
             self._errors['email'] = self.error_class(['Email length is maximum 50 characters'])
         if email in all_emails:
             self._errors['email'] = self.error_class(['Contact with this email is already in the book'])
+        try:
+            validate_email(email)
+        except ValidationError:
+            self._errors['email'] = self.error_class(['Invalid email'])
         for this_phone in phones:
             if len(this_phone) > 13:
                 self._errors['phone'] = self.error_class(['Phone length is maximum 13 characters'])
@@ -68,7 +73,7 @@ class AddNote(forms.Form):
         note_to_add = self.cleaned_data['note']
         tags = [tg.strip() for tg in self.cleaned_data['tag'].split(',')]
 
-        if len(note_to_add) > 50 :
+        if len(note_to_add) > 50:
             self._errors['note'] = self.error_class(['Note length is maximum 50 characters'])
         for this_tag in tags:
             if len(this_tag) > 20:
@@ -81,11 +86,57 @@ class AddNote(forms.Form):
 class ChangeName(forms.Form):
     new_name = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'class': 'contact_name_form'}))
 
+    def clean(self):
+
+        super(ChangeName, self).clean()
+
+        new_name = self.cleaned_data['new_name']
+
+        if len(new_name) > 40:
+            self._errors['name'] = self.error_class(['Name length is maximum 40 characters'])
+
+        return self.cleaned_data
+
 
 class ChangeBirthday(forms.Form):
     new_birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'date_form'}))
     
     
 class AddPhone(forms.Form):
-    phone = forms.EmailField(max_length=40, widget=forms.TextInput(attrs={'class': 'email_form'}))
-    
+    phone = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'class': 'email_form'}))
+
+    def clean(self):
+
+        super(AddPhone, self).clean()
+
+        phone = self.cleaned_data['phone']
+
+        if len(phone) > 13:
+            self._errors['phone'] = self.error_class(['Phone length is maximum 13 characters'])
+        if not phone[1:].isdigit() or not phone.startswith('+'):
+            self._errors['phone'] = self.error_class(['Phone must start with + and contain only digits'])
+
+        return self.cleaned_data
+
+
+class ChangeEmail(forms.Form):
+    email = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'email_form'}))
+
+    def clean(self):
+
+        super(ChangeEmail, self).clean()
+
+        email = self.cleaned_data['email']
+
+        all_emails = [cnt.email for cnt in Contact.objects.all()]
+
+        if len(email) > 50:
+            self._errors['email'] = self.error_class(['Email length is maximum 50 characters'])
+        if email in all_emails:
+            self._errors['email'] = self.error_class(['Contact with this email is already in the book'])
+        try:
+            validate_email(email)
+        except ValidationError:
+            self._errors['email'] = self.error_class(['Invalid email'])
+
+        return self.cleaned_data

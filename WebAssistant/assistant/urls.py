@@ -16,4 +16,6 @@ urlpatterns = [
     path('contact_book/change_name/<contact_id>', views.change_name, name='change_name'),
     path('contact_book/change_birthday/<contact_id>', views.change_birthday, name='change_birthday'),
     path('contact_book/add_phone/<contact_id>', views.add_phone, name='add_phone'),
+    path('contact_book/detail/<contact_id>/delete_phone/<phone_value>', views.delete_phone, name='delete_phone'),
+    path('contact_book/change_email/<contact_id>/', views.change_email, name='change_email'),
 ]
