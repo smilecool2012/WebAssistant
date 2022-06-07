@@ -925,3 +925,11 @@ input[type="date"] {
     color: black;
     text-decoration: none;
 }
+
+.note_desc{
+    height:150px;
+}
+
+.tag_form{
+    margin-top: 40px
+}

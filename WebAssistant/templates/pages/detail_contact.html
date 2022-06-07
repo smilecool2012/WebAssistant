@@ -22,23 +22,22 @@ Contact info::{{ block.super }}
         <div class="flex-row-item-contact">
             <div class="cnt_detail_info">
                 <h3 style="width: 25%;">PHONES:</h3>
-                {% if phones|length <= 4 %}
-                <h3 class="phone_cnt" style="width: 25%">{% for phone in phones %}<a class="phone_span" href='{% url "delete_phone" id_contact phone.phone %}'>{{ phone.phone }}</a> {% endfor %}</h3>
+                {% if phones|length < 4 %}
+                <h3 class="phone_cnt" style="width: 45%">{% for phone in phones %}<a class="phone_span" href='{% url "delete_phone" id_contact phone.phone %}'>{{ phone.phone }}</a> {% endfor %}</h3>
                 {% else %}
-                <h3 class="phone_cnt" >{% for phone in phones %}{{ phone.phone }}; {% endfor %}</h3>
+                <h3 class="phone_cnt" style="width: 65%">{% for phone in phones %}<a class="phone_span" href='{% url "delete_phone" id_contact phone.phone %}'>{{ phone.phone }} </a>{% endfor %}</h3>
                 {% endif %}
                 {% if phones|length < 4 %}
                 <a class="add_phone_btn" href="{% url 'add_phone' id_contact %}">add</a>
                 {% endif %}
-                <a class="change_cnt_btn" href="/">change</a>
             </div>
         </div>
         <hr>
         <div class="flex-row-item-contact">
             <div class="cnt_detail_info">
                 <h3 style="width: 20%;">ADDRESS:</h3>
-                <h3 style="width: 40%;">{% for address in addresses %}{{ address.address }}{% endfor %}</h3>
-                <a class="change_cnt_btn" href="/">change</a>
+                <h3 style="width: 40%;">{{ contact.address }}</h3>
+                <a class="change_cnt_btn" href="{% url 'change_address' id_contact %}">change</a>
             </div>
         </div>
         <hr>
@@ -58,18 +57,6 @@ Contact info::{{ block.super }}
             </div>
         </div>
         <hr>
-        {% for note in notes %}
-        <div class="flex-row-item-contact">
-            <div class="cnt_detail_info">
-                <h3 style="width: 33%;">NOTE:</h3>
-                <h3 style="width: 33%;">{{note.note}}</h3>
-                <h3 style="width: 33%;">{% for tag in tags %}{% if tag.note_id_id == note.id %}#{{ tag.tag }};
-                    {% endif %}{% endfor %}
-                </h3>
-            </div>
-        </div>
-        <hr>
-        {% endfor %}
     </div>
     <a class="delete_contact" href="{% url 'delete_contact' id_contact %}">Delete contact</a>
 </div>

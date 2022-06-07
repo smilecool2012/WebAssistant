@@ -5,7 +5,7 @@ Add income :: {{ block.super }}
 {% endblock %}
 
 {% block welcome %}
-<h1 class="add_income">Adding contact</h1>
+<h1 class="add_income">Change name</h1>
 <div class="shit">
     <form style="width: 45%" action="{% url 'change_name' id_contact %}" method="post">
         {% csrf_token %}
